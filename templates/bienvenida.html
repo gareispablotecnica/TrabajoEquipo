@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Bienvenida — E.E.S. Técnica N.º 1{% endblock %}
+
+{% block content %}
+<section class="seccion bienvenida">
+    <div class="contenedor bienvenida-caja">
+        <p class="seccion-eyebrow">Sesión iniciada</p>
+        <h1 class="seccion-titulo">¡Bienvenido, {{ user.get_username }}!</h1>
+        <p class="bienvenida-texto">
+            Iniciaste sesión correctamente en el portal institucional de la
+            E.E.S. Técnica N.º 1 de Esteban Echeverría.
+        </p>
+        <div class="hero-acciones">
+            <a href="{% url 'home' %}" class="btn btn-primario">Volver al inicio</a>
+            <form method="post" action="{% url 'logout' %}" class="formulario-logout">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secundario">Cerrar sesión</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

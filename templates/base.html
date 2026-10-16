@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sitio institucional de la E.E.S. Técnica N.º 1 de Esteban Echeverría">
+    <title>{% block title %}E.E.S. Técnica N.º 1 — Esteban Echeverría{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+{% block header %}
+<header class="site-header">
+    <div class="contenedor header-interno">
+        <a href="{% url 'home' %}" class="marca">
+            <img src="{% static 'img/logo.svg' %}" alt="Escudo de la E.E.S. Técnica N.º 1" class="marca-escudo" width="52" height="52">
+            <span class="marca-texto">
+                <strong>E.E.S. Técnica N.º 1</strong>
+                <small>Esteban Echeverría · Provincia de Buenos Aires</small>
+            </span>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-principal" aria-label="Abrir menú de navegación">
+            <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-principal" id="nav-principal" aria-label="Navegación principal">
+            <ul>
+                <li><a href="{% url 'home' %}" class="nav-link {% if activo == 'inicio' %}activo{% endif %}">Inicio</a></li>
+                <li><a href="{% url 'home' %}#institucion" class="nav-link {% if activo == 'institucion' %}activo{% endif %}">Institución</a></li>
+                <li><a href="{% url 'home' %}#especialidades" class="nav-link {% if activo == 'especialidades' %}activo{% endif %}">Especialidades</a></li>
+                <li><a href="{% url 'home' %}#noticias" class="nav-link {% if activo == 'noticias' %}activo{% endif %}">Noticias</a></li>
+                <li><a href="{% url 'home' %}#contacto" class="nav-link {% if activo == 'contacto' %}activo{% endif %}">Contacto</a></li>
+            </ul>
+            {% if user.is_authenticated %}
+            <div class="nav-acceso">
+                <a href="{% url 'bienvenida' %}" class="btn btn-secundario btn-sm">Mi cuenta</a>
+                <form method="post" action="{% url 'logout' %}" class="formulario-logout">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primario btn-sm">Cerrar sesión</button>
+                </form>
+            </div>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primario btn-sm nav-login {% if activo == 'login' %}activo{% endif %}">Iniciar sesión</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+{% endblock %}
+
+{% if messages %}
+<div class="contenedor mensajes-contenedor" role="status">
+    {% for message in messages %}
+    <div class="mensaje mensaje-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<main id="contenido">
+    {% block content %}{% endblock %}
+</main>
+
+{% block footer %}
+<footer class="site-footer" id="contacto">
+    <div class="contenedor footer-grid">
+        <div class="footer-columna">
+            <h3 class="footer-titulo">E.E.S. Técnica N.º 1</h3>
+            <p>Escuela de Educación Secundaria Técnica N.º 1 de Esteban Echeverría. Formación técnica con valores, orientada al futuro de nuestros estudiantes.</p>
+        </div>
+        <div class="footer-columna">
+            <h3 class="footer-titulo">Contacto</h3>
+            <ul class="footer-lista">
+                <li>Av. Hipólito Yrigoyen 1234</li>
+                <li>Esteban Echeverría, Buenos Aires</li>
+                <li>Tel.: (011) 4290-0000</li>
+                <li><a href="mailto:contacto@eest1.edu.ar">contacto@eest1.edu.ar</a></li>
+            </ul>
+        </div>
+        <div class="footer-columna">
+            <h3 class="footer-titulo">Enlaces útiles</h3>
+            <ul class="footer-lista">
+                <li><a href="{% url 'home' %}#especialidades">Especialidades</a></li>
+                <li><a href="{% url 'home' %}#noticias">Novedades</a></li>
+                <li><a href="{% url 'login' %}">Acceso docentes</a></li>
+                <li><a href="/admin/">Panel administrativo</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-base">
+        <div class="contenedor">
+            <p>&copy; {% now "Y" %} E.E.S. Técnica N.º 1 de Esteban Echeverría. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

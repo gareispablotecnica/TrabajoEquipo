@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicio — E.E.S. Técnica N.º 1{% endblock %}
+{% block body_class %}pagina-home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="contenedor hero-interno">
+        <div class="hero-texto">
+            <p class="hero-eyebrow">Formación técnica de calidad</p>
+            <h1>E.E.S. Técnica N.º 1 de Esteban Echeverría</h1>
+            <p class="hero-descripcion">
+                Una institución educativa comprometida con la enseñanza técnica, la innovación
+                y los valores. Formamos profesionales con identidad, pensamiento crítico y
+                vocación de servicio.
+            </p>
+            <div class="hero-acciones">
+                <a href="#especialidades" class="btn btn-primario">Conocé nuestras especialidades</a>
+                <a href="{% url 'login' %}" class="btn btn-secundario">Acceso de docentes</a>
+            </div>
+        </div>
+        <div class="hero-panel" aria-hidden="true">
+            <div class="hero-dato">
+                <span class="hero-dato-numero">4</span>
+                <span class="hero-dato-texto">Especialidades técnicas</span>
+            </div>
+            <div class="hero-dato">
+                <span class="hero-dato-numero">6</span>
+                <span class="hero-dato-texto">Años de formación</span>
+            </div>
+            <div class="hero-dato">
+                <span class="hero-dato-numero">+30</span>
+                <span class="hero-dato-texto">Años de trayectoria</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="seccion" id="institucion">
+    <div class="contenedor">
+        <p class="seccion-eyebrow">Nuestra escuela</p>
+        <h2 class="seccion-titulo">Presentación institucional</h2>
+        <div class="presentacion-grid">
+            <div class="presentacion-texto">
+                <p>
+                    La E.E.S. Técnica N.º 1 brinda una educación secundaria completa con fuerte
+                    orientación técnica y tecnológica. Nuestra propuesta pedagógica combina la
+                    formación en oficios y especialidades con una sólida base científica, humanística
+                    y digital.
+                </p>
+                <p>
+                    Acompañamos a cada estudiante en su desarrollo personal y profesional,
+                    promoviendo el trabajo en equipo, la responsabilidad y el compromiso con la
+                    comunidad. Nuestro objetivo es egresar técnicos preparados para el mundo del
+                    trabajo y para la continuidad de estudios superiores.
+                </p>
+            </div>
+            <ul class="presentacion-lista">
+                <li>
+                    <strong>Propuesta técnica</strong>
+                    <span>Talleres y laboratorios equipados para el aprendizaje práctico.</span>
+                </li>
+                <li>
+                    <strong>Formación integral</strong>
+                    <span>Valores, ciudadanía y compromiso social en el centro del proceso.</span>
+                </li>
+                <li>
+                    <strong>Proyección al futuro</strong>
+                    <span>Actualización constante de contenidos y vínculo con el sector productivo.</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="seccion seccion-gris" id="especialidades">
+    <div class="contenedor">
+        <p class="seccion-eyebrow">Orientaciones</p>
+        <h2 class="seccion-titulo">Especialidades técnicas</h2>
+        <p class="seccion-intro">
+            Ofrecemos orientaciones técnicas que preparan a nuestros estudiantes con conocimientos
+            y habilidades demandados por el mundo actual.
+        </p>
+        <div class="tarjetas-grilla">
+            {% for especialidad in especialidades %}
+            <article class="tarjeta">
+                <div class="tarjeta-icono" aria-hidden="true">{{ especialidad.icono }}</div>
+                <h3 class="tarjeta-titulo">{{ especialidad.nombre }}</h3>
+                <p class="tarjeta-texto">{{ especialidad.descripcion }}</p>
+            </article>
+            {% empty %}
+            <p class="seccion-vacia">Las especialidades se están cargando desde el administrador de Django.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="seccion" id="noticias">
+    <div class="contenedor">
+        <p class="seccion-eyebrow">Institucional</p>
+        <h2 class="seccion-titulo">Novedades</h2>
+        <div class="tarjetas-grilla">
+            {% for noticia in noticias %}
+            <article class="tarjeta tarjeta-noticia">
+                <time class="tarjeta-fecha" datetime="{{ noticia.fecha|date:'Y-m-d' }}">{{ noticia.fecha|date:"d \d\e F, Y" }}</time>
+                <h3 class="tarjeta-titulo">{{ noticia.titulo }}</h3>
+                <p class="tarjeta-texto">{{ noticia.resumen }}</p>
+            </article>
+            {% empty %}
+            <p class="seccion-vacia">No hay noticias publicadas por el momento.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="seccion seccion-gris" id="accesos">
+    <div class="contenedor">
+        <p class="seccion-eyebrow">Comunidad escolar</p>
+        <h2 class="seccion-titulo">Accesos rápidos</h2>
+        <div class="accesos-grilla">
+            <a class="acceso" href="{% url 'login' %}">
+                <span class="acceso-icono" aria-hidden="true">%</span>
+                <span class="acceso-titulo">Calendario académico</span>
+                <span class="acceso-texto">Fechas, feriados y ciclos lectivos.</span>
+            </a>
+            <a class="acceso" href="{% url 'login' %}">
+                <span class="acceso-icono" aria-hidden="true">@</span>
+                <span class="acceso-titulo">Aula virtual</span>
+                <span class="acceso-texto">Recursos y actividades para estudiantes.</span>
+            </a>
+            <a class="acceso" href="{% url 'login' %}">
+                <span class="acceso-icono" aria-hidden="true">Aa</span>
+                <span class="acceso-titulo">Biblioteca digital</span>
+                <span class="acceso-texto">Material de consulta y lectura.</span>
+            </a>
+            <a class="acceso" href="{% url 'login' %}">
+                <span class="acceso-icono" aria-hidden="true">M</span>
+                <span class="acceso-titulo">Mesa de exámenes</span>
+                <span class="acceso-texto">Consignas, mesas y resultados.</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

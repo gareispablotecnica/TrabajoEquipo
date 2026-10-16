@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Iniciar sesión — E.E.S. Técnica N.º 1{% endblock %}
+{% block body_class %}pagina-login{% endblock %}
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="login-layout">
+    <aside class="login-marca">
+        <a href="{% url 'home' %}" class="login-marca-enlace">
+            <img src="{% static 'img/logo.svg' %}" alt="Escudo de la E.E.S. Técnica N.º 1" class="login-escudo" width="84" height="84">
+            <h1>E.E.S. Técnica N.º 1</h1>
+            <p>Esteban Echeverría · Provincia de Buenos Aires</p>
+        </a>
+        <p class="login-marca-lema">Formación técnica con valores, orientada al futuro.</p>
+        <a href="{% url 'home' %}" class="login-volver">← Volver al inicio</a>
+    </aside>
+
+    <section class="login-formulario-caja" aria-labelledby="login-titulo">
+        <div class="login-formulario-contenido">
+            <h2 id="login-titulo">Iniciar sesión</h2>
+            <p class="login-subtitulo">Ingresá con tu usuario institucional para acceder al portal.</p>
+
+            {% if form.errors %}
+            <div class="mensaje mensaje-error" role="alert">
+                Usuario o contraseña incorrectos. Verificá los datos e intentá nuevamente.
+            </div>
+            {% endif %}
+
+            {% if next and user.is_authenticated %}
+            <div class="mensaje mensaje-info" role="alert">
+                Tu cuenta no tiene acceso a esta página.
+            </div>
+            {% endif %}
+
+            <form method="post" class="login-formulario" novalidate>
+                {% csrf_token %}
+
+                <div class="campo">
+                    <label for="{{ form.username.id_for_label }}">
+                        Nombre de usuario <span class="campo-obligatorio" aria-hidden="true">*</span>
+                    </label>
+                    <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}"
+                           value="{{ form.username.value|default_if_none:'' }}" required autocomplete="username"
+                           {% if form.username.errors %}aria-invalid="true"{% endif %}>
+                    {% if form.username.errors %}
+                    <span class="campo-error">{{ form.username.errors|first }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="campo">
+                    <label for="{{ form.password.id_for_label }}">
+                        Contraseña <span class="campo-obligatorio" aria-hidden="true">*</span>
+                    </label>
+                    <div class="campo-password">
+                        <input type="password" name="{{ form.password.html_name }}" id="{{ form.password.id_for_label }}"
+                               required autocomplete="current-password"
+                               {% if form.password.errors %}aria-invalid="true"{% endif %}>
+                        <button type="button" class="btn-password" id="btn-password"
+                                aria-label="Mostrar contraseña" aria-pressed="false">Mostrar</button>
+                    </div>
+                    {% if form.password.errors %}
+                    <span class="campo-error">{{ form.password.errors|first }}</span>
+                    {% endif %}
+                </div>
+
+                <p class="campo-leyenda"><span class="campo-obligatorio">*</span> Campos obligatorios</p>
+
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <button type="submit" class="btn btn-primario btn-block">Ingresar</button>
+            </form>
+
+            <p class="login-ayuda">¿Olvidaste tu contraseña o necesitás ayuda? Consultá en la administración de la escuela.</p>
+        </div>
+    </section>
+</div>
+{% endblock %}
